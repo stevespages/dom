@@ -49,10 +49,9 @@ After `dom.createElVars()` has been called the resulting `dom` object will conta
     createElVars: function createElVars()....,
 
     els: {
-        homeCancelBtn: <button....,
-        homeDiv: <div....,
-        homeInp: <inp....,
-        homeOKBtn: <button....
+        home_div: <div....,
+        myForm_div: <div....,
+        myForm_divOk_btn: <button....
     },
 
     showDivs: function showDivs()....,
