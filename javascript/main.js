@@ -2,10 +2,10 @@ import { dom } from "./modules/dom.js";
 
 dom.createElVars();
 
-dom.showDiv(["homeDiv"]);
+dom.showDiv(["home_div"]);
 
 /*
-dom.button.homeOk.addEventListener("click", () => {
+dom.els.homeOkBtn.addEventListener("click", () => {
     console.log("you clicked dom.button.homeOk");
 })
 */
