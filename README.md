@@ -8,7 +8,15 @@ This file exports a JavaScript module called `dom`. It is designed to be used in
 
 The `dom` module also provides a way for all the JavaScript code relating to a given HTML div to be placed in the same file. It is recommended that the name of this file be the same as the id of the div that it relates to. Additionally the JavaScript file should export a function which also has the same name. The mechanism for running the code related to a particular div involves the code relating to the div that is about to be hidden dispatching an event which will run the code for the div that is about to be displayed.
 
-The same name is given to an HTML div's id, the JavaScript variable for that div, the Javascript file relating to the div and for the function exported by that div.
+The same name is given to:
+
+* an HTML div's id eg `menu_d`
+
+* the JavaScript variable for that div eg `menu_d`
+
+* the Javascript file relating to the div eg `menu_d.js`
+
+* the function exported by that file eg `menu_d()`
 
 In order for the code relating to a given HTML div element to be all together in the same file the code is all put inside event listeners. The `dom` object provides the means to dispatch an event with the information necessary for only the desired event listener's code to run.
 
