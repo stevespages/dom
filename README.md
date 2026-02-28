@@ -6,31 +6,25 @@ This module is particularly suited to single page websites which rely on control
 
 This file exports a JavaScript module called `dom`. It is designed to be used in conjunction with a specific naming convention for HTML element ids and their corresponding JavaScript variable names. The `dom` module automatically creates a variable for any HTML element and this variable has the same name as the value of the element's id.
 
-The `dom` module also provides a way for all the JavaScript code relating to a given HTML div to be placed in the same file. It is recommended that the name of this file be the same as the id of the div that it relates to. Additionally the JavaScript file should export a function which also has the same way.
+The `dom` module also provides a way for all the JavaScript code relating to a given HTML div to be placed in the same file. It is recommended that the name of this file be the same as the id of the div that it relates to. Additionally the JavaScript file should export a function which also has the same name. The mechanism for running the code related to a particular div involves the code relating to the div that is about to be hidden dispatching an event which will run the code for the div that is about to be displayed.
 
 The same name is given to an HTML div's id, the JavaScript variable for that div, the Javascript file relating to the div and for the function exported by that div.
 
-In order for the code relating to a given HTML div element to be all together in the same file the code all inside event listeners. The `dom` object provides the means to dispatch an event with the information necessary for only the desired event listener's code to run.
+In order for the code relating to a given HTML div element to be all together in the same file the code is all put inside event listeners. The `dom` object provides the means to dispatch an event with the information necessary for only the desired event listener's code to run.
 
-Currently there is a  limitation that div elements with an id must not be used inside other such elements.
+Currently there is a  limitation that div elements with an id must not be nested inside other such elements.
 
 ## The Naming Convention
 
-For an HTML div element that displays a menu one might choose the word "menu" for the id. In which case the actual name used should be `menu_d` where the underscore denotes that the next lower case letters will signify the type of element (in this case d for dive). Now the JavaScript variable pointing to this div element that is automatically created will be called `menu_d`. It is then recommended that any JavaScript code relating to this div is in a file called `menu_d.js` and that code should export a JavaScript function called `menu_d.js`.
+For an HTML div element that displays a menu one might choose the word "menu" for the id. In which case the actual name used should be `menu_d` where the underscore denotes that the next lower case letters will signify the type of element (in this case d for div). Now the JavaScript variable pointing to this div element that is automatically created will be called `menu_d`. It is then recommended that any JavaScript code relating to this div is in a file called `menu_d.js` and that code should export a JavaScript function called `menu_d()`.
 
-For elements inside the divs it is recommended that their id should be named by appending to the name of the div's id. So, for example, a cancel button inside the `menu_d` div might be named `menu_dCancel_btn`. The capitalization of the C of cancel indicates where the element type (d for div) ends. If there was only one button inside the menu div it might be called `menu_d_btn`. If there is more than one then `menu_dCancel_btn` can clearly be distinguished from, for example, `menu_dCreateForm_btn`. This convention can generate long names but it is very good for keeping track of what is what in the code. The `dom` module will automatically create JavaScript variables to point to any HTML element with an id and the variable's name will be the same as the id. That is why the ids should never contain a hyphen. 
-
-
-
-It facilitates access to elements in the DOM of any HTML file that complies with the naming convention outlined below.
+For elements inside the divs it is recommended that their ids should be named by appending to the name of the div's id. So, for example, a cancel button inside the `menu_d` div might be named `menu_dCancel_btn`. The capitalization of the C of cancel indicates where the element type (d for div) ends. If there was only one button inside the menu div it might be called `menu_d_btn`. If there is more than one then `menu_dCancel_btn` can clearly be distinguished from, for example, `menu_dCreateForm_btn`. This convention can generate long names but it is very good for keeping track of what is what in the code. The `dom` module will automatically create JavaScript variables to point to any HTML element with an id and the variable's name will be the same as the id. The ids should never contain a hyphen because JavaScript variable names are not allowed to contain hyphens.
 
 Typically elements in the DOM are assigned to variables with code such as this:
 
 `const el = document.querySelector("#id-value")`
 
-The `dom` module automates these assignments, saving time.
-
-`dom` creates a JavaScript object property from every HTML element with an `id` attribute. The naming convention is best illustrated by some examples where the HTML is followed by the JavaScript property name in each case:
+The `dom` module automates these assignments, saving time, and reducing mistakes.
 
 ## Methods
 
