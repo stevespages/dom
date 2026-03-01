@@ -80,6 +80,8 @@ A module dedicated to a particular HTML div eg `home_d.js` which exports a funct
 
 ### Tutorial
 
+As a simple excercise which demonstrates how to use `dom` we will create a website with a single HTML file, `index.html`, with two `div`s in it. Each `div` has a button in it which when clicked hides the `div` it is in and opens the other `div`.
+
 * Create a root directory for the project, perhaps called `testdom`
 
 * Copy or download `dom` into the project directory. It is best to use the most recent tagged version of `dom`. If the directory is called `dom-v1-2-3` or similar you must remove the version part so the name of the directory is exactly `dom`.
@@ -90,13 +92,38 @@ A module dedicated to a particular HTML div eg `home_d.js` which exports a funct
 
 * `index.html` should have two `div` elements in it with `id` values that conform to the naming conventions for `dom`. These two `div`s should each have a `p` element containg different text. The `id` values for the two `div`s used in this tutorial are `first_d` and `second_d`.
 
-* An example of suitable `index.html` file is shown below. This can be pasted into your `index.html` file.
+* The `index.html` file is shown below. This can be pasted into your `index.html` file.
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="module" src="./js/main.js"></script>
+        <title>Test dom</title>
+    </head>
+    <body>
+        <h1>Test dom</h1>
+
+        <div id="first_d">
+            <p>This is inside divOne_d div</p>
+        </div>
+
+        <div id="second_d">
+            <p>This is inside divTwo_d div</p>
+        </div>
+
+    </body>
+    </html>
+
+    ```
 
 * Create a directory in the root directory called `js`
 
 * Create a file called `main.js` inside the `js` directory
 
-* Put `console.log("from main.js")` inside `main.js`
+* Put `console.log("from main.js")` inside `main.js` 
 
 * Navigate to this website from a browser and check "from main.js" appears in the console of the developer tools section for the website. If it does continue. If not debug what you have done!
 
@@ -112,44 +139,247 @@ A module dedicated to a particular HTML div eg `home_d.js` which exports a funct
 
 * Create a file called `second_d.js` inside the `d` directory and do the same as before except the funtions will be called `second_d()`.
 
-* Inside `./js/main.js` write import statement for the `dom` module and for the modules created above.
+* Inside `./js/main.js` write an import statement for the `dom` module and for the modules created above.
 
 * Also inside `./js/main.js` run the `dom.createElVars()` command which creates JavaScript variables for every HTML element with an `id` attribute in `index.html`. Also run `dom.consoleLogEls()` which will log a list of the names of all the created variables to the developer tools console in the browser.
 
 * Now your `./js/main.js` file should look like this:
 
     ```javascript
+    console.log("from main.js")
+
     // imports from /d
     import { first_d } from "./d/first_d.js";
     import { second_d } from "./d/second_d.js";
+
+    // import dom
+    import { dom } from "../../../dom/dom.js";
+
+    dom.createElVars();
+    dom.consoleLogEls();
+
     ```
 
+* Now navigate to your project in a browser and look at the console in developer tools. You should see the names of the variables `dom` has created in addition to the "from main.js" string. If so continue otherwise go back and debug.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" src="./js/main.js"></script>
-    <title>Test dom</title>
-</head>
-<body>
-    <h1>Test dom</h1>
+* In `./js/main.js` call the two imported functions supplying the imported `dom` object as arguments:
 
-    <div id="first_d">
-        <p>This is inside divOne_d div</p>
-    </div>
+    ```javascript
+    first_d(dom);
+    second_d(dom);
+    ```
 
-    <div id="second_d">
-        <p>This is inside divTwo_d div</p>
-    </div>
+* After this add the following line to the bottom of the `./js/main.js` file:
 
-</body>
-</html>
+    ```javascript
+    dom.changeDivTo("first_d", "START");
+    ```
 
-```
+* Your `./js/main.js` file should now look like this:
 
-### `./js/main.js`
+    ```javascript
+    // imports from /d
+    import { first_d } from "./d/first_d.js";
+    import { second_d } from "./d/second_d.js";
 
+    // import dom
+    import { dom } from "./dom.js";
 
+    dom.createElVars();
+    dom.consoleLogEls();
+
+    first_d(dom);
+    second_d(dom);
+
+    ```
+
+* Navigate to the website. It will still not be functional because the two JavaScript funtions, `first_d()` and `second_d` are currently empty. If the website appears normally and there are no errors in the developer console continue. Otherwise debug.
+
+* The functions exported from JavaScript modules in the `./js/d` directory require the `dom` object as an argument, for example `first_d(dom)`. The `dom` object has a method called `changeDivTo(to, from, data)`. The `to` argument should be the name of the `id` of the div that should now become visible and the code for which should now run. The `from` argument should be the name of the `id` of the div currently visible and it is the code for this div which should be calling the function. The `data` function should be an object. When this function runs it adds a `from` dataset attribute to the element specified by the value of the `to` argument. It also adds a dataset attribute to this element for every property in the `data` argument object.
+
+* In addition to the actions outlined above, `dom.changeDivTo()` also dispatches an event called `changeDiv`. All the `./js/d` module functions, eg `first_d()`, `second_d()` etc, have an event listener for this event. So they all fire when the event is dispatched. Only the event listener for the module specific to the `div` that was modifed by the `from` argument of `dom.changeDivTo()` will execute the code in the event handler. The other event handlers will return without doing anything.
+
+* This is illustrated by the code for `second_d()` which is shown here:
+
+    ```javascript
+    export function second_d(dom) {
+
+        const thisDiv = "second_d";
+
+        document.addEventListener("changeDiv", () => {
+            if (
+                [
+                    "first_d"
+                ]
+                .includes(dom.els[thisDiv].dataset.from)
+            ){
+                dom.changeDivToComplete(thisDiv);
+            }
+        })
+    ```
+
+    * The array in the `if` condition becomes a list of `div`s which can activate this `div` and run the code in the block after the `if` condition. Here we only have one `div`, `first_d`, in the list.
+
+    * There can be any number of such `if` statements so different code can be run depending on which `div` the `dom.changeDivTo()` function was called in.
+
+    * The `if` condition is satisfied if there is a value in it, for example `first_d`, which is the same as the value of the `from` data attribute added to the "`to`" div by `dom.changeDivTo()`.
+
+    * The logic is somewhat complex but it is not strictly necessary to know it in order to use `dom` effectively.
+
+    * We must call `dom.changeDivTo()` from `./js/main.js` when the website first loads. This will select the `div` which should be displayed when the website initially renders in the browser. Since this is not initiated from within a `div` the `from` attribute's value is set to the string, `START`. The value `START` has to be in the `if` condition of the first `div`'s code. As can be seen below.
+
+    ```javascript
+    // imports from /d
+    import { first_d } from "./d/first_d.js";
+    import { second_d } from "./d/second_d.js";
+
+    // import dom
+    import { dom } from "./dom.js";
+
+    dom.createElVars();
+    dom.consoleLogEls();
+
+    first_d(dom);
+    second_d(dom);
+
+    changeDivTo("first_d", "START")
+
+    ```
+    * The JavaScript modules relating to each `div` such as `first_d.js` and `second_d.js` should also contain any code relevant to the respective `div`s they control For example we will add the following event listener to `first_d()`:
+
+        ```javascript
+        dom.els.first_dToSecond_btn.addEventListener("click", () => {
+            dom.changeDivTo("second_d", "first_d");
+        });
+        ```
+
+    * Similar code in `second_d` will enable control to pass from `second_d` to `first_d`.
+
+    * The code should now be complete. All the files are shown below for convenience.
+
+### Completed Tutorial Files
+
+* The directory and file structure for the site:
+
+    ```bash
+    .
+    ├── index.html
+    └── js
+        ├── d
+        │   ├── first_d.js
+        │   └── second_d.js
+        ├── dom.js
+        └── main.js
+
+    ```
+
+* The files can be seen below with the exception of `./js/dom.js` which can be seen at github.com/stevespages/dom
+
+* `./index.html`
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="module" src="./js/main.js"></script>
+        <style>
+            .hide {
+                display: none;
+            }
+        </style>
+        <title>Test dom</title>
+    </head>
+    <body>
+        <h1>Test dom</h1>
+
+        <div id="first_d">
+            <p>Inside first_d</p>
+            <button id="first_dToSecond_btn">Go To Second Div</button>
+        </div>
+
+        <div id="second_d">
+            <p>Inside second_d</p>
+            <button id="second_dToFirst_btn">Go To First Div</button>
+        </div>
+
+    </body>
+    </html>
+
+    ```
+
+* `./js/main.js`
+
+    ```javascript
+    console.log("from main.js")
+
+    // imports from /d
+    import { first_d } from "./d/first_d.js";
+    import { second_d } from "./d/second_d.js";
+
+    // import dom
+    import { dom } from "./dom.js";
+
+    dom.createElVars();
+    dom.consoleLogEls();
+
+    first_d(dom);
+    second_d(dom);
+
+    dom.changeDivTo("first_d", "START");
+
+    ```
+
+* `./js/d/first_d.js`
+
+    ```javascript
+    export function first_d(dom) {
+
+        const thisDiv = "first_d";
+
+        document.addEventListener("changeDiv", () => {
+            if (
+                [
+                    "START",
+                    "second_d"
+                ]
+                .includes(dom.els[thisDiv].dataset.from)
+            ){
+                dom.changeDivToComplete(thisDiv);
+            }
+        })
+
+        dom.els.first_dToSecond_btn.addEventListener("click", () => {
+            dom.changeDivTo("second_d", "first_d");
+        })
+
+    }
+
+    ```
+
+* `./js/d/second_d.js`
+
+    ```javascript
+    export function second_d(dom) {
+
+        const thisDiv = "second_d";
+
+        document.addEventListener("changeDiv", () => {
+            if (
+                [
+                    "first_d"
+                ]
+                .includes(dom.els[thisDiv].dataset.from)
+            ){
+                dom.changeDivToComplete(thisDiv);
+            }
+        })
+
+        dom.els.second_dToFirst_btn.addEventListener("click", () => {
+            dom.changeDivTo("first_d", "second_d");;
+        })
+    
+    }
+
+    ```
