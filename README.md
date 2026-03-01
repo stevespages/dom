@@ -92,6 +92,8 @@ As a simple excercise which demonstrates how to use `dom` we will create a websi
 
 * `index.html` should have two `div` elements in it with `id` values that conform to the naming conventions for `dom`. These two `div`s should each have a `p` element containg different text. The `id` values for the two `div`s used in this tutorial are `first_d` and `second_d`.
 
+* In order for `dom` to hide `div`s they add a class called `hide` to all the `div` elements except the one which is displayed. It is necessary to have a CSS rule that hides (`display: none`) elements with a class of `hide` as can be seen in `index.html` below.
+
 * The `index.html` file is shown below. This can be pasted into your `index.html` file.
 
     ```html
@@ -101,6 +103,11 @@ As a simple excercise which demonstrates how to use `dom` we will create a websi
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="module" src="./js/main.js"></script>
+        <style>
+            .hide {
+                display: none;
+            }
+        </style>
         <title>Test dom</title>
     </head>
     <body>
