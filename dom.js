@@ -1,3 +1,5 @@
+// dom v0.1.0
+
 export const dom = {
 
     changeDiv: new Event("changeDiv"),
