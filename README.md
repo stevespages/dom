@@ -26,7 +26,6 @@ Currently there is a  limitation that div elements with an id must not be nested
 
 The main branch is the development branch and should not be used in production. The most recent tagged version (eg `dom vx.y.z` where x, y and z are integers) should be used unless you are restoring an old project that used an earlier version. The tagged versions can be obtained from the "Switch branches/tags" dropdown on the `dom` main GitHub page.
 
-
 ## The Naming Convention
 
 For an HTML div element that displays a menu one might choose the word "menu" for the id. In which case the actual name used should be `menu_d` where the underscore denotes that the next lower case letters will signify the type of element (in this case d for div). Now the JavaScript variable pointing to this div element that is automatically created will be called `menu_d`. It is then recommended that any JavaScript code relating to this div is in a file called `menu_d.js` and that code should export a JavaScript function called `menu_d()`.
@@ -390,3 +389,7 @@ As a simple excercise which demonstrates how to use `dom` we will create a websi
     }
 
     ```
+
+## License
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE).
