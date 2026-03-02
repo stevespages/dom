@@ -1,4 +1,4 @@
-// dom v0.1.0
+// dom
 
 export const dom = {
 
