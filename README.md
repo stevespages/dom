@@ -390,6 +390,10 @@ As a simple excercise which demonstrates how to use `dom` we will create a websi
 
     ```
 
+## Developer Issues
+
+* Get rid of `toCamelCase()` from `createElVars`? I am not using it (I think) and it adds complexity.
+
 ## License
 
 This project is licensed under the [GNU Affero General Public License v3.0](LICENSE).
